@@ -1,0 +1,1 @@
+ALTER TABLE "produtos" ADD COLUMN "old_image" varchar(255);

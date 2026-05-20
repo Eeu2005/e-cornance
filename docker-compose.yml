@@ -1,10 +1,42 @@
 services:
-   db:
-    image: postgres
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
     ports:
       - "5432:5432"
     environment:
-       POSTGRES_USER: user
-       POSTGRES_PASSWORD": pass
-       POSTGRES_DB": ecornance-db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: ecornance-db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+  MeiliSearch:
+   image: getmeili/meilisearch:v1.37
+   restart: unless-stopped
+   ports:
+     - "7700:7700"
+   environment:
+    MEILI_ENV: development
+   volumes:
+    - meili_data:/data
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+  rembg:
+    image: danielgatis/rembg
+    ports:
+      - "7000:7000"
+    volumes:
+      - ./data/:/root
+    command: ["s" ,"--host", "0.0.0.0", "--port", "7000"]
+    restart: unless-stopped
+    network_mode: "bridge"
+volumes:
+  db-data:
+  redis-data:
+  meili_data:
    
