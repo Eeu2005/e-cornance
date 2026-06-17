@@ -1,2 +1,6 @@
+<img src="frontend/public/logoEscuro.svg" width=50 height=45 align="right" >
+
 # E-cornance
-![alt](frontend/public/logoEscuro.svg)
+[tooltip](https://primevue.org/llms/components/tooltip.md)
+
+

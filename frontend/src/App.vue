@@ -1,5 +1,6 @@
 <template>
-<RouterView/>
+   <Suspense>
+     <RouterView />
+   </Suspense>
 </template>
-<style>
-</style>
+<style></style>

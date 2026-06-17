@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import {PhFileVue} from "@phosphor-icons/vue"
+import LeftBar from "@/components/LeftBar.vue";
+import TopBar from "@/components/TopBar.vue";
 </script>
 
 <template>
- <h1 class="text-2xl  text-electric-violet-700">Hello from E-cornance <span><PhFileVue weight="fill"/></span> </h1>
- <img src="/logoClaro.svg">
-  <img src="/logoEscuro.svg">
+    <TopBar/>
+<div class="flex gap-1.5 h-dvh">
+    <LeftBar/>
+    <div class="w-full rounded-xl h-full bg-electric-violet-100"></div>
+</div>
 </template>
 
 <style scoped></style>

@@ -1,113 +1,133 @@
+/* @import url("base.css"); */
 @import "tailwindcss";
-@import url("base.css");
-body{
-   background-color: var(--color-alto-200);
+@import "tailwindcss-primeui";
+@import "./plein.css";
+body {
+	font-family: "Plein-Regular"; 
+	background-color: var(--color-alto-100);
+	min-height: 100vh;
 }
-@theme{
-    /* Primary colors - Electric Violet */
-    --color-electric-violet-50: #f5f2ff;
-    --color-electric-violet-100: #ede7ff;
-    --color-electric-violet-200: #ddd2ff;
-    --color-electric-violet-300: #c5aeff;
-    --color-electric-violet-400: #a880ff;
-    --color-electric-violet-500: #8f4dff;
-    --color-electric-violet-600: #8225ff;
-    --color-electric-violet-700: #7516eb;
-    --color-electric-violet-800: #6212c5;
-    --color-electric-violet-900: #5111a1;
-    --color-electric-violet-950: #31076e;
+@theme {
+	/* Primary colors - Electric Violet */
+	--color-electric-violet-50: #f5f2ff;
+	--color-electric-violet-100: #ede7ff;
+	--color-electric-violet-200: #ddd2ff;
+	--color-electric-violet-300: #c5aeff;
+	--color-electric-violet-400: #a880ff;
+	--color-electric-violet-500: #8f4dff;
+	--color-electric-violet-600: #8225ff;
+	--color-electric-violet-700: #7516eb;
+	--color-electric-violet-800: #6212c5;
+	--color-electric-violet-900: #5111a1;
+	--color-electric-violet-950: #31076e;
 
-    /* Surface colors - Alto */
-    --color-alto-50: #f7f7f7;
-    --color-alto-100: #ededed;
-    --color-alto-200: #d9d9d9;
-    --color-alto-300: #c8c8c8;
-    --color-alto-400: #adadad;
-    --color-alto-500: #999999;
-    --color-alto-600: #888888;
-    --color-alto-700: #7b7b7b;
-    --color-alto-800: #676767;
-    --color-alto-900: #545454;
-    --color-alto-950: #363636;
+	/* Surface colors - Alto */
+	--color-alto-50: #f7f7f7;
+	--color-alto-100: #ededed;
+	--color-alto-200: #d9d9d9;
+	--color-alto-300: #c8c8c8;
+	--color-alto-400: #adadad;
+	--color-alto-500: #999999;
+	--color-alto-600: #888888;
+	--color-alto-700: #7b7b7b;
+	--color-alto-800: #676767;
+	--color-alto-900: #545454;
+	--color-alto-950: #363636;
 }
 
 @layer theme {
-  /* Light theme */
-  [data-theme="light"] {
-    --p-primary-color: var(--color-electric-violet-500);
-    --p-primary-contrast-color: var(--color-alto-50);
-    --p-primary-hover-color: var(--color-electric-violet-600);
-    --p-primary-active-color: var(--color-electric-violet-700);
-    --p-content-border-color: var(--color-alto-200);
-    --p-content-hover-background: var(--color-alto-100);
-    --p-content-hover-color: var(--color-alto-800);
-    --p-highlight-background: var(--color-electric-violet-50);
-    --p-highlight-color: var(--color-electric-violet-700);
-    --p-highlight-focus-background: var(--color-electric-violet-100);
-    --p-highlight-focus-color: var(--color-electric-violet-800);
-    --p-text-color: var(--color-alto-700);
-    --p-text-hover-color: var(--color-alto-800);
-    --p-text-muted-color: var(--color-alto-500);
-    --p-text-hover-muted-color: var(--color-alto-600);
-  }
+	/* Light theme */
+	[data-theme="light"] {
+		--p-primary-color: var(--color-electric-violet-500);
+		--p-primary-contrast-color: var(--color-alto-50);
+		--p-primary-hover-color: var(--color-electric-violet-600);
+		--p-primary-active-color: var(--color-electric-violet-700);
+		--p-content-border-color: var(--color-alto-200);
+		--p-content-hover-background: var(--color-alto-100);
+		--p-content-hover-color: var(--color-alto-800);
+		--p-highlight-background: var(--color-electric-violet-50);
+		--p-highlight-color: var(--color-electric-violet-700);
+		--p-highlight-focus-background: var(--color-electric-violet-100);
+		--p-highlight-focus-color: var(--color-electric-violet-800);
+		--p-text-color: var(--color-alto-700);
+		--p-text-hover-color: var(--color-alto-800);
+		--p-text-muted-color: var(--color-alto-500);
+		--p-text-hover-muted-color: var(--color-alto-600);
+	}
 
-  /* Dark theme */
-  [data-theme="dark"] {
-    --p-primary-color: var(--color-electric-violet-400);
-    --p-primary-contrast-color: var(--color-alto-900);
-    --p-primary-hover-color: var(--color-electric-violet-300);
-    --p-primary-active-color: var(--color-electric-violet-200);
-    --p-content-border-color: var(--color-alto-700);
-    --p-content-hover-background: var(--color-alto-800);
-    --p-content-hover-color: #ffffff;
-    --p-highlight-background: color-mix(in srgb, var(--color-electric-violet-400), transparent 84%);
-    --p-highlight-color: rgba(255, 255, 255, 0.87);
-    --p-highlight-focus-background: color-mix(in srgb, var(--color-electric-violet-400), transparent 76%);
-    --p-highlight-focus-color: rgba(255, 255, 255, 0.87);
-    --p-text-color: #ffffff;
-    --p-text-hover-color: #ffffff;
-    --p-text-muted-color: var(--color-alto-400);
-    --p-text-hover-muted-color: var(--color-alto-300);
-  }
+	/* Dark theme */
+	[data-theme="dark"] {
+		--p-primary-color: var(--color-electric-violet-400);
+		--p-primary-contrast-color: var(--color-alto-900);
+		--p-primary-hover-color: var(--color-electric-violet-300);
+		--p-primary-active-color: var(--color-electric-violet-200);
+		--p-content-border-color: var(--color-alto-700);
+		--p-content-hover-background: var(--color-alto-800);
+		--p-content-hover-color: #ffffff;
+		--p-highlight-background: color-mix(
+			in srgb,
+			var(--color-electric-violet-400),
+			transparent 84%
+		);
+		--p-highlight-color: rgba(255, 255, 255, 0.87);
+		--p-highlight-focus-background: color-mix(
+			in srgb,
+			var(--color-electric-violet-400),
+			transparent 76%
+		);
+		--p-highlight-focus-color: rgba(255, 255, 255, 0.87);
+		--p-text-color: #ffffff;
+		--p-text-hover-color: #ffffff;
+		--p-text-muted-color: var(--color-alto-400);
+		--p-text-hover-muted-color: var(--color-alto-300);
+	}
 
-  /* System preference fallback */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme]) {
-      --p-primary-color: var(--color-electric-violet-400);
-      --p-primary-contrast-color: var(--color-alto-900);
-      --p-primary-hover-color: var(--color-electric-violet-300);
-      --p-primary-active-color: var(--color-electric-violet-200);
-      --p-content-border-color: var(--color-alto-700);
-      --p-content-hover-background: var(--color-alto-800);
-      --p-content-hover-color: #ffffff;
-      --p-highlight-background: color-mix(in srgb, var(--color-electric-violet-400), transparent 84%);
-      --p-highlight-color: rgba(255, 255, 255, 0.87);
-      --p-highlight-focus-background: color-mix(in srgb, var(--color-electric-violet-400), transparent 76%);
-      --p-highlight-focus-color: rgba(255, 255, 255, 0.87);
-      --p-text-color: #ffffff;
-      --p-text-hover-color: #ffffff;
-      --p-text-muted-color: var(--color-alto-400);
-      --p-text-hover-muted-color: var(--color-alto-300);
-    }
-  }
+	/* System preference fallback */
+	@media (prefers-color-scheme: dark) {
+		:root:not([data-theme]) {
+			--p-primary-color: var(--color-electric-violet-400);
+			--p-primary-contrast-color: var(--color-alto-900);
+			--p-primary-hover-color: var(--color-electric-violet-300);
+			--p-primary-active-color: var(--color-electric-violet-200);
+			--p-content-border-color: var(--color-alto-700);
+			--p-content-hover-background: var(--color-alto-800);
+			--p-content-hover-color: #ffffff;
+			--p-highlight-background: color-mix(
+				in srgb,
+				var(--color-electric-violet-400),
+				transparent 84%
+			);
+			--p-highlight-color: rgba(255, 255, 255, 0.87);
+			--p-highlight-focus-background: color-mix(
+				in srgb,
+				var(--color-electric-violet-400),
+				transparent 76%
+			);
+			--p-highlight-focus-color: rgba(255, 255, 255, 0.87);
+			--p-text-color: #ffffff;
+			--p-text-hover-color: #ffffff;
+			--p-text-muted-color: var(--color-alto-400);
+			--p-text-hover-muted-color: var(--color-alto-300);
+		}
+	}
 
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme]) {
-      --p-primary-color: var(--color-electric-violet-500);
-      --p-primary-contrast-color: var(--color-alto-50);
-      --p-primary-hover-color: var(--color-electric-violet-600);
-      --p-primary-active-color: var(--color-electric-violet-700);
-      --p-content-border-color: var(--color-alto-200);
-      --p-content-hover-background: var(--color-alto-100);
-      --p-content-hover-color: var(--color-alto-800);
-      --p-highlight-background: var(--color-electric-violet-50);
-      --p-highlight-color: var(--color-electric-violet-700);
-      --p-highlight-focus-background: var(--color-electric-violet-100);
-      --p-highlight-focus-color: var(--color-electric-violet-800);
-      --p-text-color: var(--color-alto-700);
-      --p-text-hover-color: var(--color-alto-800);
-      --p-text-muted-color: var(--color-alto-500);
-      --p-text-hover-muted-color: var(--color-alto-600);
-    }
-  }
+	@media (prefers-color-scheme: light) {
+		:root:not([data-theme]) {
+			--p-primary-color: var(--color-electric-violet-500);
+			--p-primary-contrast-color: var(--color-alto-50);
+			--p-primary-hover-color: var(--color-electric-violet-600);
+			--p-primary-active-color: var(--color-electric-violet-700);
+			--p-content-border-color: var(--color-alto-200);
+			--p-content-hover-background: var(--color-alto-100);
+			--p-content-hover-color: var(--color-alto-800);
+			--p-highlight-background: var(--color-electric-violet-50);
+			--p-highlight-color: var(--color-electric-violet-700);
+			--p-highlight-focus-background: var(--color-electric-violet-100);
+			--p-highlight-focus-color: var(--color-electric-violet-800);
+			--p-text-color: var(--color-alto-700);
+			--p-text-hover-color: var(--color-alto-800);
+			--p-text-muted-color: var(--color-alto-500);
+			--p-text-hover-muted-color: var(--color-alto-600);
+		}
+	}
 }
