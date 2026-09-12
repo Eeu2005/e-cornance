@@ -148,7 +148,7 @@ export async function getProducts(
 	limit = 10,
 	filtros?: Filtros,
 ) {
-	const total = await db.$count(produtos);
+	
 		const queryComentarios = db
 			.select({
 				id: comentarios.idProduto,
@@ -180,7 +180,8 @@ export async function getProducts(
 		
 		return filters;
 	};
-
+	/// @ts-ignore sorry
+	const total = await db.$count(produtos, and(lte(produtos.precoCentavos, filtros?.maxPreco), gte(produtos.precoCentavos, filtros?.minPreco)));
 	const queryProdutos = await db
 		.select({
 			id: produtos.id,
@@ -189,12 +190,12 @@ export async function getProducts(
 			slug: produtos.slug,
 			imagem: produtos.imagemPrincipal,
 			corDestaque: produtos.corDestaque,
-			avaliacaoMedia:sql<number>`COALESCE(${queryComentarios.estrelas},0)`,
+			avaliacaoMedia: sql<number>`CAST(COALESCE(${avg(queryComentarios.estrelas)},0)as INT)`,
 			tipo: tiposProdutos.nome,
 		})
 		.from(produtos)
-		.groupBy(produtos.id, tiposProdutos.nome,queryComentarios.estrelas)
-		.where(and(lte(produtos.id, lastProdutoId + 1), ...filter()))
+		.groupBy(produtos.id, tiposProdutos.nome)
+		.where(and(gte(produtos.id, lastProdutoId + 1), ...filter()))
 		.limit(limit + 1)
 		.orderBy(produtos.id)
 		.leftJoin(queryComentarios, eq(queryComentarios.id, produtos.id))
@@ -203,12 +204,6 @@ export async function getProducts(
 	console.log(queryProdutos.length);
 	const seTemProximo = queryProdutos.length > 10;
 	seTemProximo ? queryProdutos.pop() : void 0;
-	console.log({
-		total,
-		limit,
-		seTemProximo,
-		data: queryProdutos,
-	})
 	return {
 		total,
 		limit,

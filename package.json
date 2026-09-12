@@ -1,0 +1,11 @@
+{
+    "scripts": {
+    "install": "npm run install:back && npm run install:db && npm run install:front",
+    "install:back":"cd ./backend && npm install",
+    "install:end": "cd ./frontend && npm install",
+    "installdb":"cd backend && npm run generate && npm run migrate && npm run seed ",
+    "dev:back":"cd ./backend &&npm run dev",
+    "dev:front": "cd ./frontend && npm run dev",
+    "dev:rmbg": "cd ./backend && npm run services:rmbg"    
+    }
+}

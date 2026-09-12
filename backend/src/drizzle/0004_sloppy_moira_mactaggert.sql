@@ -1,1 +1,0 @@
-DROP INDEX "comentarios_id_produto_id_usuario_idx";

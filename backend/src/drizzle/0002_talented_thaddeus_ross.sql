@@ -1,1 +1,0 @@
-ALTER TABLE "produtos" ADD COLUMN "cor_destaque" varchar;
