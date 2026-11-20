@@ -1,0 +1,29 @@
+@import url('https://fonts.cdnfonts.com/css/noto-serif-khmer');
+
+@import "tailwindcss";
+@import 'tailwindcss-primeui';
+
+body{
+    font-family: var(--font-Khmer);
+    background-color: var(--color-surface-100);
+}
+@theme main {
+    --font-Khmer:"Noto Serif Khmer";
+    --radius-md: 20px;
+    --radius-sm: 10px;
+    --radius-lg: 30px;
+    --blur: 15px;
+
+    --color-roxo-50: #f5f2ff;
+    --color-roxo-100: #ede7ff;
+    --color-roxo-200: #ddd2ff;
+    --color-roxo-300: #c5aeff;
+    --color-roxo-400: #a880ff;
+    --color-roxo-500: #8f4dff;
+    --color-roxo-600: #8225ff;
+    --color-roxo-700: #7516eb;
+    --color-roxo-800: #6212c5;
+    --color-roxo-900: #5111a1;
+    --color-roxo-950: #31076e;
+}
+
