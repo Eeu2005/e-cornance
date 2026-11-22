@@ -49,13 +49,13 @@ export async function sendByPOST(blob: Buffer<ArrayBuffer>) {
   const fileBlob = new Blob([fileData], { type: "image/png" });
   const controller = new AbortController();
   body.append("file", fileBlob, "input.png");
+  const timeout = setTimeout(controller.abort, 900000);
   const response = await fetch(env.RMBG_URL, {
     method: "POST",
     signal: controller.signal,
     headers: {},
     body: body,
   });
-  const timeout = setTimeout(controller.abort, 900000);
   console.log(response);
   if (response.ok) {
     clearTimeout(timeout);
@@ -69,7 +69,7 @@ export async function sendByPOST(blob: Buffer<ArrayBuffer>) {
 
 
 export async function assertModel() {
-    //"../../../../data/.u2net/birefnet-general-lite.onnx"
+    //"../../../../data/.rembg/birefnet-general-lite.onnx"
   const modelPath = path.join(import.meta.dirname, "..", "..", "..", "..","data", ".rembg", "birefnet-general-lite","birefnet-general-lite.onnx" )
   const exist = existsSync(modelPath)
 

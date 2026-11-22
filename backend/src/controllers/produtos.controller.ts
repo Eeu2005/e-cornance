@@ -6,6 +6,7 @@ import {
 	lte,
 	type SQLWrapper,
 	sql,
+	like,
 } from "drizzle-orm";
 import {
 	comentarios,
@@ -16,7 +17,6 @@ import {
 } from "../drizzle/schema.js";
 import { db, } from "../utils/db.js";
 import { databaseErros, ErrorStatus } from "../utils/ErrorStatus.js";
-import ProdutoIndex from "../utils/meili.js";
 import { nameToSlug } from "../utils/String.js";
 import { TryCatch } from "../utils/tryCatch.js";
 
@@ -47,7 +47,7 @@ export async function createProduto({
 			imagemPrincipal: imagePath,
 		})
 		.returning({
-			imagem:produtos.imagemPrincipal,
+			imagem: produtos.imagemPrincipal,
 			id: produtos.id,
 			nome: produtos.nome,
 			slug: produtos.slug,
@@ -55,16 +55,6 @@ export async function createProduto({
 	const [err, res] = await TryCatch(query);
 	if (err) throw databaseErros(err, "Produto");
 	const [data] = res;
-	ProdutoIndex.addDocuments([
-		{
-			imagem:data.imagem,
-			slug: data.slug,
-			id: data.id,
-			nome: data.nome,
-			descricao,
-			precoCentavos,
-		},
-	]);
 	return data;
 }
 export async function editImages(idProduto: number, images: string[]) {
@@ -105,6 +95,35 @@ export async function addImage(idProduto: number, images: string[]) {
 		imgs,
 	};
 }
+
+// id: z.number(),
+// 			nome: z.string(),
+// 			descricao: z.string().nullable(),
+// 			imagem: z.string(),
+// 			slug: z.string(),
+// 			precoCentavos: z.number(),
+export async function search(term: string) {
+	return (await db.select({
+		id:produtos.id,
+		nome:produtos.nome,
+		descricao:produtos.descricao,
+		imagem:produtos.imagemPrincipal,
+		slug:produtos.slug,
+		precoCentavos:produtos.precoCentavos
+	}).from(produtos).where(
+		sql`
+		to_tsvector('portuguese',
+  		coalesce(nome, '') || ' ' )
+@@ plainto_tsquery('portuguese',${term})
+		`
+	)).map(e=>({
+		...e,
+		nome:e.nome.replace(term,`<b>${term}</b>`),
+	}))
+
+}
+
+
 export async function getProductBySlug(slug: string) {
 	const queryProdutos = await db
 		.select({
@@ -148,19 +167,19 @@ export async function getProducts(
 	limit = 10,
 	filtros?: Filtros,
 ) {
-	
-		const queryComentarios = db
-			.select({
-				id: comentarios.idProduto,
-				estrelas:
-					sql<number>`COALESCE(cast(${avg(comentarios.estrelas)} as int)) `.as(
-						"estrelas",
-					),
-			})
-			.from(comentarios)
-			.leftJoin(produtos, eq(comentarios.idProduto, produtos.id))
-			.groupBy(comentarios.id)
-			.as("query_comentarios");
+
+	const queryComentarios = db
+		.select({
+			id: comentarios.idProduto,
+			estrelas:
+				sql<number>`COALESCE(cast(${avg(comentarios.estrelas)} as int)) `.as(
+					"estrelas",
+				),
+		})
+		.from(comentarios)
+		.leftJoin(produtos, eq(comentarios.idProduto, produtos.id))
+		.groupBy(comentarios.id)
+		.as("query_comentarios");
 	const filter = () => {
 		const filters: SQLWrapper[] = [];
 		if (!filtros) return [];
@@ -173,11 +192,11 @@ export async function getProducts(
 		if (filtros.minPreco) {
 			filters.push(gte(produtos.precoCentavos, filtros.minPreco));
 		}
-		
+
 		if (filtros.maxPreco) {
 			filters.push(lte(produtos.precoCentavos, filtros.maxPreco));
 		}
-		
+
 		return filters;
 	};
 	/// @ts-ignore sorry

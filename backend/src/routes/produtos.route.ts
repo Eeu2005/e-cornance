@@ -7,11 +7,11 @@ import {
   createProduto,
   getProductBySlug,
   getProducts,
+  search
 } from "../controllers/produtos.controller.js";
 import { authUser, isAdmin } from "../utils/auth.js";
 import { DEFAULT_RESPONSES } from "../utils/consts.js";
 import { ErrorStatus } from "../utils/ErrorStatus.js";
-import ProdutoIndex from "../utils/meili.js";
 import { upload } from "../utils/multer.js";
 import { RemoverFundoProduto, rmQuee } from "../utils/quee.js";
 import { TryCatch } from "../utils/tryCatch.js";
@@ -400,9 +400,7 @@ export const productRoute: FastifyPluginAsyncZod = async (fastify) => {
     async (req) => {
       const { q } = req.query;
       const [err, data] = await TryCatch(
-        ProdutoIndex.search(q, {
-          attributesToSearchOn: ["nome"],
-        }),
+        search(q)
       );
       if (err) {
         fastify.log.error(err);
@@ -412,7 +410,7 @@ export const productRoute: FastifyPluginAsyncZod = async (fastify) => {
         );
       }
 
-      return data.hits;
+      return data;
     },
   );
 };

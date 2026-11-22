@@ -1,7 +1,9 @@
+<img src="frontend/public/logoEscuro.svg" width=50 height=45 align="right" />
+
 # E-cornance
 
-Sistema de e-commerce com catálogo de produtos, usuários, avaliações, busca e
-processamento assíncrono de imagens com remoção automática de fundo.
+Sistema de e-commerce com catálogo de produtos, usuários, avaliações, busca e com processo
+ automatico assíncrono de imagens com remoção automática de fundo.
 
 ## Visão geral
 
@@ -29,34 +31,25 @@ config:
 ---
 
 flowchart TB
-	a["<strong>Front-end</strong><br/>Administrador
-     "]
+	a["<strong>Front-end</strong><br/>Administrador"]
 	b[" Back-end<br/>API"]
-
-	subgraph dados[Dados]
-		c1[PostgreSQL]
-		c2[Redis]
-		c3[Meilisearch]
-	end
-
-	subgraph services[Serviços]
-		d1[rembg]
-	end
+	c[(PostgreSQL)]
+	d1[worker de Remoção de fundo]
+	
 
 	e@{ shape: lin-cyl, label: "S3 ou local" }
-	f[API de remoção de fundo]
+	f[\API de remoção de fundo\]
 
 	a -- Novo produto --> b
 	a -- Cookie JWT --> b
-	b -- Confere o JWT --> c2
-	b -- Novo produto --> c1
-	b -- Novo produto --> c3
+	b -- Novo produto --> c
+	
 	b -- Imagem não tratada --> e
 	b -- Dispara o evento --> d1
 	d1 -- Baixa a imagem --> e
 	d1 -- Faz upload da imagem --> f
 	f -- Devolve a imagem sem fundo --> d1
-	d1 -- Atualiza o produto --> c1
+	d1 -- Atualiza o produto --> c
 ```
 
 ## Stack
@@ -80,8 +73,7 @@ flowchart TB
 - Zod para validação e schemas OpenAPI
 - PostgreSQL
 - Drizzle ORM
-- Redis e BullMQ para filas e jobs
-- Meilisearch para indexação e busca de produtos
+- BullMQ para filas e jobs
 - JWT e cookies HTTP-only para autenticação
 - Multer para upload de arquivos
 - AWS SDK para armazenamento S3 compatível
@@ -96,11 +88,9 @@ O arquivo `docker-compose.yml` inicia:
 | Serviço     | Imagem                       | Porta  | Finalidade                    |
 | ----------- | ---------------------------- | ------ | ----------------------------- |
 | PostgreSQL  | `postgres:15-alpine`         | `5432` | Banco de dados principal      |
-| Meilisearch | `getmeili/meilisearch:v1.37` | `7700` | Busca e indexação de produtos |
-| Redis       | `redis:7-alpine`             | `6379` | Fila e controle dos jobs      |
 | rembg       | `danielgatis/rembg`          | `7000` | Remoção de fundo das imagens  |
 
-Os dados persistentes ficam nos volumes `db-data`, `redis-data` e `meili_data`.
+Os dados persistentes ficam nos volumes `db-data`,
 O diretório local `data/` é montado no container do `rembg`.
 
 ## Pré-requisitos

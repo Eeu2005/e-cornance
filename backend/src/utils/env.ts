@@ -15,7 +15,6 @@ export const env = z
     NUM_SALT: z.coerce.number().int(),
     DESENVOLVEDOR: z.coerce.boolean().optional(),
     LOCAL: z.coerce.boolean().optional(),
-    REDIS_URL: z.url(),
     MEILI_KEY: z.string(),
     MEILI_HOST: z.url(),
     RMBG_URL: z.url(),

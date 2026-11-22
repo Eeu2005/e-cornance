@@ -1,11 +1,11 @@
 import { compare, hashSync } from "bcrypt";
-import { eq } from "drizzle-orm";
+import { and, eq, lt, lte } from "drizzle-orm";
 import type { preHandlerAsyncHookHandler } from "fastify";
 import { jwtVerify, SignJWT } from "jose";
 import { JWTExpired } from "jose/errors";
 import z from "zod";
-import { usuarios } from "../drizzle/schema.js";
-import { db, redis } from "../utils/db.js";
+import { tokens, usuarios } from "../drizzle/schema.js";
+import { db } from "../utils/db.js";
 import { ErrorStatus } from "../utils/ErrorStatus.js";
 import { env } from "../utils/env.js";
 import { TryCatch } from "../utils/tryCatch.js";
@@ -23,19 +23,22 @@ type jwtPayload = {
 };
 async function createRefreshToken(id: number) {
   const hash = hashSync(id.toString(), env.NUM_SALT);
-  const ok = await redis.set(id.toString(), hash, {
-    expiration: {
-      type: "EX",
-      value: 60 * 60 * 24 * 30, //30 dias
-    },
-  });
+  const ok = await db.insert(tokens).values({
+    expires_at: new Date(Date.now() + (60 * 60 * 24 * 30)),
+    key:`user:${id}`,
+    value:hash
+  }).returning()
+ 
   if (!ok) throw new ErrorStatus("Erro ao criar refresh token", 500);
   return hash;
 }
 async function verifyRefreshToken(id: number, token: string) {
-  const storedToken = await redis.get(id.toString());
+  const [storedToken] = await db.select().from(tokens).where(and(
+    eq(tokens.key, id.toString()),
+    lt(tokens.expires_at, new Date())
+  ));
   if (!storedToken) return false;
-  const isValid = token === storedToken;
+  const isValid = token === storedToken.value;
   return isValid;
 }
 export async function refreshToken(jwt: string, refreshToken: string) {

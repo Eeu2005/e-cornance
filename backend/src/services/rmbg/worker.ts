@@ -1,6 +1,6 @@
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
-import { Job, Worker } from "bullmq";
+import { type Job } from "bullmq";
 import { eq } from "drizzle-orm";
 import extarctColors from "extract-colors";
 import sharp from "sharp";
@@ -8,10 +8,11 @@ import { produtos } from "../../drizzle/schema.js";
 import { db } from "../../utils/db.js";
 import { env } from "../../utils/env.js";
 import { TryCatch } from "../../utils/tryCatch.js";
-import { donwload,assertModel,sendByPOST, uploadS3 } from "./utilis.js";
+import { donwload, sendByPOST, uploadS3 } from "./utilis.js";
 import { S3 } from "@aws-sdk/client-s3";
 import z from "zod";
 import { randomUUID } from "node:crypto";
+import { Worker } from "../../utils/quee.js";
 let client: S3 | null = null
 
 const { success: successAws, data: envAws,error:errAws } = z
@@ -127,14 +128,11 @@ export const WorkerFunction = async (job: Job<{ idProduto: number }>) => {
 // 	/[-a-zA-Z0-9@:%_+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_+.~#?&//=]*)?/;
 // Aguardar o modelo estar pronto
 
-export const rmbgWorker = new Worker<{ idProduto: number }>(
+export const rmbgWorker = new Worker(
   "RM_BG",
-  WorkerFunction
- ,
+  WorkerFunction,
   {
-    connection: {
-      url: env.REDIS_URL,
-    },
+    connection: env.DATABASE_URL,
   },
 );
 

@@ -1,5 +1,5 @@
 import { exit } from "node:process";
-import { RemoverFundoProduto, rmQuee } from "../../utils/quee.js";
+import { rmQuee } from "../../utils/quee.js";
 import "./worker.js"
 import { db } from "../../utils/db.js";
 import { produtos } from "../../drizzle/schema.js";

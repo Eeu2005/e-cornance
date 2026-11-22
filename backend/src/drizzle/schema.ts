@@ -2,6 +2,7 @@ import {
   foreignKey,
   index,
   integer,
+  jsonb,
   pgEnum,
   pgTable,
   text,
@@ -234,3 +235,8 @@ export const comentarios = pgTable(
     }).onDelete("cascade"),
   ],
 );
+export const tokens = pgTable("tokens",{
+  key:text().primaryKey(),
+  value:text().notNull(),
+  expires_at:timestamp().notNull()
+})

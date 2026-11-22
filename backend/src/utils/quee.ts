@@ -1,10 +1,9 @@
-import { Queue } from "bullmq";
+import { createPostgresBackend, withBackend } from "bullmq";
 import { env } from "./env.js";
-
+export const { Queue,Worker, } = withBackend(createPostgresBackend)
 export const rmQuee = new Queue("RM_BG", {
-  connection: {
-    url: env.REDIS_URL,
-  },
+  connection: env.DATABASE_URL,
+  
 });
 
 export async function RemoverFundoProduto(idProduto: number) {

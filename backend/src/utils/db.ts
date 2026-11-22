@@ -1,5 +1,5 @@
 import { drizzle, } from "drizzle-orm/node-postgres";
-import { createClient } from "redis";
+// import { createClient } from "redis";
 import {Pool} from "pg"
 
 import * as schema from "../drizzle/schema.js";
@@ -21,8 +21,8 @@ export const db = drizzle({
   connection: connectionUrl,
 });
 
-export const redis = await createClient({
-  url: env.REDIS_URL,
-})
-  .on("error", (err) => console.log("Redis Client Error", err))
-  .connect();
+// export const redis = await createClient({
+//   url: env.REDIS_URL,
+// })
+//   .on("error", (err) => console.log("Redis Client Error", err))
+//   .connect();

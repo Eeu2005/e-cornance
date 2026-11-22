@@ -8,6 +8,13 @@
       "when": 1782940757653,
       "tag": "0000_misty_stone_men",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795376757938,
+      "tag": "0001_extensions",
+      "breakpoints": true
     }
   ]
 }
